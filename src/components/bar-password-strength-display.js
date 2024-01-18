@@ -1,18 +1,16 @@
 /* eslint import/no-unresolved: [2, { ignore: ['react-native', 'react'] }] */
-import React, { Component } from 'react';
-import {
-  View, Animated, Text,
-} from 'react-native';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import { View, Animated, Text } from "react-native";
+import PropTypes from "prop-types";
 
 // Components
-import scorePassword from '../utils/score-password';
-import calculateAbsoluteWidth from '../utils/calculate-absolute-width';
-import calculateLevel from '../utils/calculate-level';
+import scorePassword from "../utils/score-password";
+import calculateAbsoluteWidth from "../utils/calculate-absolute-width";
+import calculateLevel from "../utils/calculate-level";
 
 // Style
-import style from '../style';
-import { BAR_PASSWORD_STRENGTH_DISPLAY } from '../constants';
+import style from "../style";
+import { BAR_PASSWORD_STRENGTH_DISPLAY } from "../constants";
 
 class BarPasswordStrengthDisplay extends Component {
   constructor(props) {
@@ -43,23 +41,62 @@ class BarPasswordStrengthDisplay extends Component {
     Animated.timing(this.animatedBarWidth, {
       toValue: absoluteWidth,
       duration: 700,
-      useNativeDriver: false
+      useNativeDriver: false,
     }).start();
     return (
       <View style={[style.wrapper, wrapperStyle]}>
-        <View style={[style.barContainer, barContainerStyle, { backgroundColor: barColor, width }]}>
-          <Animated.View
-            style={[
-              style.bar,
-              barStyle,
-              { width: this.animatedBarWidth, backgroundColor: activeBarColor },
-            ]}
-          />
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+            paddingLeft: 15,
+          }}
+        >
+          <View style={{ paddingRight: 8 }}>
+            {labelVisible && (touched || score !== 0) ? (
+              <Text
+                allowFontScaling={false}
+                style={[labelStyle, { color: labelColor }]}
+              >
+                {label}
+              </Text>
+            ) : (
+              <Text
+                allowFontScaling={false}
+                style={[labelStyle, { color: "#D71F26" }]}
+              >
+                Weak
+              </Text>
+            )}
+          </View>
+          <View style={{}}>
+            <View
+              style={[
+                style.barContainer,
+                barContainerStyle,
+                { backgroundColor: barColor, width },
+              ]}
+            >
+              <Animated.View
+                style={[
+                  style.bar,
+                  barStyle,
+                  {
+                    width: this.animatedBarWidth,
+                    backgroundColor: activeBarColor,
+                  },
+                ]}
+              />
+            </View>
+          </View>
         </View>
-        {labelVisible && (touched || score !== 0)
+
+        {/* {labelVisible && (touched || score !== 0)
           ? <Text style={[style.label, labelStyle, { color: labelColor }]}>{label}</Text>
           : null
-        }
+        } */}
       </View>
     );
   }
